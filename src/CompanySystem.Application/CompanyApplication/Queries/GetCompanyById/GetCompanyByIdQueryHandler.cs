@@ -18,7 +18,14 @@ namespace CompanySystem.Application.CompanyApplication.Queries.GetCompanyById
 
         public async Task<ErrorOr<GetCompanyByIdResult>> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var company = await _companyRepository.GetByIdAsync(request.Id);
+
+            if (company is null)
+            {
+                return CompanyErrors.CompanyNotFound;
+            }
+
+            return new GetCompanyByIdResult(company);
         }
     }
 }

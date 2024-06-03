@@ -1,5 +1,7 @@
 ﻿using CompanySystem.Application.Common.Interfaces.Persistence;
 using CompanySystem.Domain.CompanyAggregate;
+using CompanySystem.Domain.CompanyAggregate.Enums;
+using CompanySystem.Domain.CompanyAggregate.Errors;
 using ErrorOr;
 using MediatR;
 
@@ -17,6 +19,14 @@ public class CreateCompanyCommandHandler
 
     public async Task<ErrorOr<Company>> Handle(CreateCompanyCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var company = await _companyRepository.GetByCnpjAsync(command.Cnpj);
+
+        if (company is not null)
+        {
+            return CompanyErrors.CompanyAlreadyExists;
+        }
+
+        var companyCreated = Company.Create(command.Cnpj, command.CompanyName, command.BusinessName, CompanySize.FromValue(command.Size));
+        return companyCreated;
     }
 }
