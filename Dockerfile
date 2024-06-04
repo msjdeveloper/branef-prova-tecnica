@@ -1,5 +1,5 @@
 # Common definitions
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Development
 
 # Base image for running the application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
@@ -31,5 +31,5 @@ RUN dotnet publish "CompanySystem.API.csproj" -c $BUILD_CONFIGURATION -o /app/pu
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT:-Staging}
+ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT:-Development}
 ENTRYPOINT ["dotnet", "CompanySystem.API.dll"]

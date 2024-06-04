@@ -19,10 +19,10 @@ public class CompanyMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id.Value)
             .Map(dest => dest.Size, src => src.Size.Value);
 
-        config.NewConfig<GetCompanyByIdResult, GetCompanyResponse>()
-            .Map(dest => dest.Id, src => src.Company.Id.Value)
-            .Map(dest => dest.Size, src => src.Company.Size.Value)
-            .Map(dest => dest, src => src.Company);
+        config.NewConfig<Company, GetCompanyResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value)
+            .Map(dest => dest.Size, src => src.Size.Value)
+            .Map(dest => dest, src => src);
 
         config.NewConfig<UpdateCompanyRequest, UpdateCompanyCommand>();
 

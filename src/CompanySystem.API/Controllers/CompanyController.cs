@@ -37,7 +37,7 @@ public class CompanyController(ISender sender, IMapper mapper) : ApiController
         var result = await _sender.Send(query);
 
         return result.Match(
-            result => Ok(_mapper.Map<List<Company>>(result)),
+            result => Ok(_mapper.Map<List<GetCompanyResponse>>(result)),
             errors => Problem(errors));
     }
         

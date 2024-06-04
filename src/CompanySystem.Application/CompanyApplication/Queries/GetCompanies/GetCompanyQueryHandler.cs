@@ -1,5 +1,6 @@
 using CompanySystem.Application.Common.Interfaces.Persistence;
 using CompanySystem.Application.CompanyApplication.Common;
+using CompanySystem.Domain.CompanyAggregate;
 using CompanySystem.Domain.CompanyAggregate.Errors;
 using ErrorOr;
 using MediatR;
@@ -7,7 +8,7 @@ using MediatR;
 namespace CompanySystem.Application.CompanyApplication.Queries.GetCompanies
 {
     public class GetCompaniesQueryHandler
-        : IRequestHandler<GetCompaniesQuery, ErrorOr<GetCompaniesResult>>
+        : IRequestHandler<GetCompaniesQuery, ErrorOr<List<Company>>>
     {
         private readonly ICompanyRepository _companyRepository;
 
@@ -16,7 +17,7 @@ namespace CompanySystem.Application.CompanyApplication.Queries.GetCompanies
             _companyRepository = companyRepository;
         }
 
-        public async Task<ErrorOr<GetCompaniesResult>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<List<Company>>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
         {
             var companies = await _companyRepository.GetCompanies();
 
@@ -25,7 +26,7 @@ namespace CompanySystem.Application.CompanyApplication.Queries.GetCompanies
                 return CompanyErrors.CompanyNotFound;
             }
             
-            return new GetCompaniesResult(companies);
+            return companies;
         }
     }
 }
