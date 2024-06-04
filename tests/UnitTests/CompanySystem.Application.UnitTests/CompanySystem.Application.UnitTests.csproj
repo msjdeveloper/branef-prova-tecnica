@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\KividCompanyEngine.Application\CompanySystem.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\CompanySystem.Application\CompanySystem.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -26,7 +26,14 @@ public class CreateCompanyCommandHandler
             return CompanyErrors.CompanyAlreadyExists;
         }
 
-        var companyCreated = Company.Create(command.Cnpj, command.CompanyName, command.BusinessName, CompanySize.FromValue(command.Size));
+        var companyCreated = Company.Create(
+            command.Cnpj, 
+            command.CompanyName, 
+            command.BusinessName, 
+            CompanySize.FromValue(command.Size));
+        
+        await _companyRepository.AddAsync(companyCreated);
+
         return companyCreated;
     }
 }

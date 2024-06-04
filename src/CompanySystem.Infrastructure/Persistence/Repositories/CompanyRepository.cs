@@ -21,6 +21,14 @@ public class CompanyRepository : ICompanyRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<List<Company>> GetCompanies()
+    {
+        return await _dbContext
+            .Companies
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
     public async Task<Company?> GetByIdAsync(Guid id)
     {
         return await _dbContext
@@ -40,6 +48,12 @@ public class CompanyRepository : ICompanyRepository
     public async Task UpdateAsync(Company company)
     {
         _dbContext.Update(company);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Company company)
+    {
+        _dbContext.Remove(company);
         await _dbContext.SaveChangesAsync();
     }
 }

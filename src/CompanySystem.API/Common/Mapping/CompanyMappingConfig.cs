@@ -2,7 +2,7 @@
 using CompanySystem.Domain.CompanyAggregate;
 using CompanySystem.Contracts.Company.CreateCompany;
 using CompanySystem.Contracts.Company.UpdateCompany;
-using CompanySystem.Contracts.Company.GetCompanyById;
+using CompanySystem.Contracts.Company.GetCompany;
 using CompanySystem.Application.CompanyApplication.Commands.UpdateCompany;
 using CompanySystem.Application.CompanyApplication.Commands.CreateCompany;
 using CompanySystem.Application.CompanyApplication.Common;
@@ -19,7 +19,7 @@ public class CompanyMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id.Value)
             .Map(dest => dest.Size, src => src.Size.Value);
 
-        config.NewConfig<GetCompanyByIdResult, GetCompanyByIdResponse>()
+        config.NewConfig<GetCompanyByIdResult, GetCompanyResponse>()
             .Map(dest => dest.Id, src => src.Company.Id.Value)
             .Map(dest => dest.Size, src => src.Company.Size.Value)
             .Map(dest => dest, src => src.Company);

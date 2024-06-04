@@ -63,6 +63,24 @@ public class Company : AggregateRoot<CompanyId>
             DateTime.UtcNow);
     }
 
+    public static Company Delete(
+        CompanyId id,
+        string cnpj,
+        string companyName,
+        string businessName,
+        CompanySize size,
+        DateTime createdAt)
+    {
+        return new Company(
+            id,
+            cnpj,
+            companyName,
+            businessName,
+            size,
+            createdAt,
+            DateTime.UtcNow);
+    }
+    
     public void SetId(CompanyId id)
     {
         Id = id;

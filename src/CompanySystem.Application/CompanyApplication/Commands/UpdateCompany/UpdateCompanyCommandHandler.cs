@@ -33,6 +33,8 @@ public class UpdateCompanyCommandHandler
             CompanySize.FromValue(command.Size),
             company.CreatedAt);
 
+        await _companyRepository.UpdateAsync(companyUpdated);
+        
         return companyUpdated;
 
     }

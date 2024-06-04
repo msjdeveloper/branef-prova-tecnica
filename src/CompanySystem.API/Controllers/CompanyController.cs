@@ -1,9 +1,12 @@
 ﻿using CompanySystem.Application.CompanyApplication.Commands.CreateCompany;
+using CompanySystem.Application.CompanyApplication.Commands.DeleteCompany;
 using CompanySystem.Application.CompanyApplication.Commands.UpdateCompany;
+using CompanySystem.Application.CompanyApplication.Queries.GetCompanies;
 using CompanySystem.Application.CompanyApplication.Queries.GetCompanyById;
 using CompanySystem.Contracts.Company.CreateCompany;
-using CompanySystem.Contracts.Company.GetCompanyById;
+using CompanySystem.Contracts.Company.GetCompany;
 using CompanySystem.Contracts.Company.UpdateCompany;
+using CompanySystem.Domain.CompanyAggregate;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +30,25 @@ public class CompanyController(ISender sender, IMapper mapper) : ApiController
             errors => Problem(errors));
     }
 
-    [HttpGet("GetCompanyById")]
+    [HttpGet("GetCompanies")]
+    public async Task<IActionResult> GetCompanies()
+    {
+        var query = new GetCompaniesQuery();
+        var result = await _sender.Send(query);
+
+        return result.Match(
+            result => Ok(_mapper.Map<List<Company>>(result)),
+            errors => Problem(errors));
+    }
+        
+    [HttpGet("GetCompanyById/{id}")]
     public async Task<IActionResult> GetCompanyById(Guid id)
     {
         var query = new GetCompanyByIdQuery(id);
-        var companyResult = await _sender.Send(query);
+        var result = await _sender.Send(query);
 
-        return companyResult.Match(
-            companyResult => Ok(_mapper.Map<GetCompanyByIdResponse>(companyResult)),
+        return result.Match(
+            result => Ok(_mapper.Map<GetCompanyResponse>(result)),
             errors => Problem(errors));
     }
 
@@ -46,6 +60,17 @@ public class CompanyController(ISender sender, IMapper mapper) : ApiController
 
         return result.Match(
             result => Ok(_mapper.Map<UpdateCompanyResponse>(result)),
+            errors => Problem(errors));
+    }
+
+    [HttpDelete("DeleteCompany/{id}")]
+    public async Task<IActionResult> DeleteCompany(Guid id)
+    {
+        var command = new DeleteCompanyCommand(id);
+        var result = await _sender.Send(command);
+
+        return result.Match(
+            result => Ok(),
             errors => Problem(errors));
     }
 
